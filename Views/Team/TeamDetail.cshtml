@@ -1,0 +1,80 @@
+﻿@model Registeration.Models.TeamMembers
+
+
+<h2> Team Details</h2>
+<table border="1" class="table table-hover">
+    <tr>
+        <th>Team Title : @Model.teamtitle</th>
+        <th>Participant 1 Detail:</th>
+        <th>Participant 2 Detail:</th>
+        <th>Download Files:</th>
+    </tr>
+    <tr>
+        <td>Participant Name:</td>
+        <td>
+            @if (Model.FullName1 != null)
+            {
+                @Model.FullName1
+            }
+        </td>
+        <td>
+            @if (Model.FullName2 != null)
+            {
+                @Model.FullName2
+            }
+        </td>
+        <td>
+            @if (Model.Userfile != null)
+            {
+                <a href="/Team/DownloadFile?fullfilepath=@Uri.EscapeDataString(Model.Userfile)">Download 1</a>
+            }
+        </td>
+        <td>
+            @if (Model.Userfile2 != null)
+            {
+                <a href="/Team/DownloadFile?fullfilepath=@Uri.EscapeDataString(Model.Userfile2)">Download 2</a>
+            }
+
+        </td>
+
+
+
+    </tr>
+    <tr>
+        <td>Participant University:</td>
+        <td>@Model.University1</td>
+        <td>@Model.University2</td>
+    </tr>
+    <tr>
+        <td>Participant Phone:</td>
+        <td>@Model.Phone1</td>
+        <td>@Model.Phone2</td>
+    </tr>
+    <tr>
+        <td>Participant Email:</td>
+        <td>@Model.Email1</td>
+        <td>@Model.Email2</td>
+    </tr>
+    <tr>
+        <td>Participant DOB:</td>
+        <td>@Model.DOB1</td>
+        <td>@Model.DOB2</td>
+    </tr>
+</table>
+<!--<script>
+    function downloadFile() {
+        $(".edit").click(function () {
+            var dataId = $(this).data("id");-->
+@*var filePath = '@Model.Userfile';
+    debugger;
+    var downloadLink = document.getElementById('downloadLink');
+    downloadLink.href = '@Url.Action("DownloadImage")' + '?filePath=' + encodeURIComponent(filePath);
+    downloadLink.style.display = 'none';
+    downloadLink.target = '_blank';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);*@
+
+
+<!--}
+</script>-->

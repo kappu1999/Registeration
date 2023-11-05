@@ -1,0 +1,184 @@
+﻿
+<section class="space-ptb">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="section-title text-center">
+                    <h2>Team Participation</h>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-lg-around position-relative pt-5">
+            <div class="col-lg-4 col-md-5 mb-4">
+                <div class="is-sticky">
+                    <a href="guidelines-for-participants.html">  <img src="~/Content/images/regg.png" /></a>
+                    <img src="~/Content/images/participation.png" />
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-7 pe-lg-5">
+                <div class="p-4 p-md-5 bg-white shadow">
+
+                    <form id="createform" method="post" action="/Team/Create" class="mt-4">
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="teamtitle" name="teamtitle" placeholder="Team Title">
+                        </div><br>
+                        <font color="blue"><b>Participant 1  Details</b></font><br>
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="fullname1" placeholder="Full Name">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="university1" placeholder="University Name">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="phone1" placeholder="Phone No." name="phone">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="email1" placeholder="Email ID">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="dob1" placeholder="Date of Birth" name="dob">
+                        </div>
+
+                        <br>
+
+
+                        <font color="blue"><b>Participant 2 Details</b></font><br>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="fullname2" placeholder="Full Name">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="university2" placeholder="University Name">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="phone2" placeholder="Phone No.">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="emailid2" placeholder="Email ID">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="dob2" placeholder="Date of Birth">
+                        </div>
+                        <br>
+                        <font color="blue"><b>Idea Submission</b></font><br>
+
+                        <div class="mb-3">
+
+                           <input type="file" id="File">
+                            <font color="black"> <br>Detailed Idea description in PDF format</font>
+                            <input type="hidden" name="userfile" id="Fileid" />
+
+                        </div>
+                        <div class="mb-3">
+
+
+                            <input type="file" id="File2">
+                            <font color="black"> <br>Abstract or Executive Summaryin PDF format</font>
+                            <input type="hidden" name="userfile2" id="Fileid2" />
+
+                        </div>
+
+
+                        <div class="mb-4">
+                            <div class="form-check ms-1">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    <font color="black"> I agree to Terms and Conditions.</font>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <button type="submit" id="submitclick" Value="Register" name="Register"><i class="fas fa-arrow-right ps-3"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="contact-bg-logo text-center">
+                <i class="fas fa-comment"></i>
+            </div>
+        </div>
+    </div>
+    <div id="Modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Thanks for registration. Sumission and profile after validation shortly our representative will get back to you.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    $("#submitclick").click(function (response) {
+        event.preventDefault();
+        $(this).prop('disabled', true);
+        $.ajax({
+            url: "/Team/Create",
+            method: "post",
+            data: $("#createform").serialize()
+        }).done(function(response){
+                $("#Modal").modal('show');
+                setTimeout(function () {
+                    $("#Modal").modal('hide');
+                }, 10000);
+            window.location.href = '/Team/Teams'
+        });
+    });
+
+     $("#File").change(function () {
+            var pictures = this.files;
+            var picsdata = new FormData();
+
+            for (var i = 0; i < pictures.length; i++) {
+                picsdata.append("Picture", pictures[i]);
+
+            }
+            $.ajax({
+                url: "@Url.Action("UploadPicture", "Team")",
+                method: "post",
+                data: picsdata,
+                dataType: 'json',
+                processData: false,
+                contentType: false
+            }).done(function (responses) {
+                var imghtml = responses;
+                console.log(imghtml);
+                $("#Fileid").val(imghtml);
+            })
+     });
+    $("#File2").change(function () {
+            var pictures = this.files;
+            var picsdata = new FormData();
+
+            for (var i = 0; i < pictures.length; i++) {
+                picsdata.append("Picture", pictures[i]);
+
+            }
+            $.ajax({
+                url: "@Url.Action("UploadPicture", "Team")",
+                method: "post",
+                data: picsdata,
+                dataType: 'json',
+                processData: false,
+                contentType: false
+            }).done(function (responses) {
+                var imghtml = responses;
+                console.log(imghtml);
+                $("#Fileid2").val(imghtml);
+            })
+        });
+</script>
+
+
+
+
+
